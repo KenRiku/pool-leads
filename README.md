@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pool Leads
 
-## Getting Started
+AI-powered lead generation platform for pool construction companies. Find high-quality, exclusive leads by identifying homes with pool-ready backyards, generate AI pool visualizations, and automate personalized outreach.
 
-First, run the development server:
+## What it does
+
+- **Lead Dashboard** - Browse and filter property leads in your service area by home value, lot size, and status
+- **AI Pool Renderings** - Generate AI-visualized pool renderings for each property using Anthropic Claude
+- **Lead Pipeline** - Visual kanban board tracking New, Contacted, Interested, Quoted, Won, Lost
+- **Outreach Postcards** - Generate downloadable postcard campaigns with before/after imagery
+- **Service Area Filtering** - Builders set their zip codes and only see relevant leads
+- **30 Pre-seeded Leads** - Realistic property data across Phoenix AZ, Orlando FL, Dallas TX, Las Vegas NV
+
+## Running locally
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up environment variables
+
+```bash
+cp .env.example .env.local
+```
+
+Fill in at minimum DATABASE_URL, AUTH_SECRET, and NEXTAUTH_URL.
+
+### 3. Set up the database
+
+Create a free PostgreSQL database at neon.tech, then:
+
+```bash
+npx prisma migrate dev --name init
+npm run db:seed
+```
+
+### 4. Start the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Required | Description |
+|---|---|---|
+| DATABASE_URL | Yes | Neon PostgreSQL connection string |
+| AUTH_SECRET | Yes | Random JWT secret (openssl rand -base64 32) |
+| NEXTAUTH_URL | Yes | App URL (http://localhost:3000 locally) |
+| GOOGLE_MAPS_API_KEY | Optional | Satellite map images on lead detail pages |
+| ANTHROPIC_API_KEY | Optional | AI pool rendering descriptions via Claude |
 
-## Learn More
+## Deploying to Vercel
 
-To learn more about Next.js, take a look at the following resources:
+1. Push to GitHub, connect to Vercel
+2. Add environment variables in Vercel dashboard
+3. Deploy (postinstall auto-runs prisma generate)
+4. Run: npx prisma migrate deploy
+5. Run: npm run db:seed
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js 16 App Router, TypeScript
+- PostgreSQL via Neon, Prisma 7 with Neon adapter
+- NextAuth.js v5 with JWT strategy
+- Tailwind CSS v4, Radix UI
+- Anthropic Claude (claude-opus-4-6) for AI features
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT (c) 2026 Riku Kenju
